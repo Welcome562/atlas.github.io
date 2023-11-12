@@ -10,7 +10,7 @@ class FrameManager {
   }
 
   createFrame(id: string, src: string) {
-    document.querySelectorAll('iframe').forEach((frame) => (frame.style.display = 'none'))
+    document.querySelectorAll('.frame').forEach((frame) => ((frame as HTMLDivElement).style.display = 'none'))
 
     this.frameContainer.appendChild(
       <div data-id={id} class="frame">
@@ -21,7 +21,7 @@ class FrameManager {
           <div className="action">
             <i class="fa-solid fa-rotate-right"></i>
           </div>
-          <input className="action url" />
+          <input className="action url" data-id={id} />
           <div className="action">
             <i class="fa-solid fa-arrow-up-right-from-square"></i>
           </div>
@@ -31,8 +31,11 @@ class FrameManager {
         </div>
         <iframe
           src={src}
+          data-id={id}
           onLoad={(e) => {
             tabManager.changeTabTitle(id, ((e.target as HTMLIFrameElement).contentWindow as Window).document.title)
+            // @ts-expect-error
+            ;(document.querySelector(`input[data-id="${id}"]`) as HTMLInputElement).value = ((e.target as HTMLIFrameElement).contentWindow)?.__uv$location.href
           }}
         ></iframe>
       </div>
@@ -52,7 +55,7 @@ class FrameManager {
 
     var frame = document.querySelector(`.frame[data-id="${id}"]`)
     if (!frame) return
-    ;(frame as HTMLDivElement).style.setProperty('display', 'block')
+    ;(frame as HTMLDivElement).style.display = "block"
     console.log(frame)
   }
 }
