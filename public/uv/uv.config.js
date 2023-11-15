@@ -1,7 +1,7 @@
 /*global Ultraviolet*/
 self.__uv$config = {
     prefix: '/service/',
-    bare: 'https://tomp.app/',
+    bare: 'https://bare.proudparrot2.tech/',
     encodeUrl: Ultraviolet.codec.xor.encode,
     decodeUrl: Ultraviolet.codec.xor.decode,
     handler: '/uv/uv.handler.js',
