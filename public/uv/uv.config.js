@@ -2,8 +2,8 @@
 self.__uv$config = {
     prefix: '/service/',
     bare: 'https://bare.proudparrot2.tech/',
-    encodeUrl: Ultraviolet.codec.base64.encode,
-    decodeUrl: Ultraviolet.codec.base64.decode,
+    encodeUrl: Ultraviolet.codec.xor.encode,
+    decodeUrl: Ultraviolet.codec.xor.decode,
     handler: '/uv/uv.handler.js',
     client: '/uv/uv.client.js',
     bundle: '/uv/uv.bundle.js',

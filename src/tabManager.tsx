@@ -43,8 +43,8 @@ export default class TabManager {
 
     tab?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
     this.focusTab(id)
-
-    frameManager.createFrame(id, '/service/' + btoa('https://www.startpage.com/do/mypage.pl?prfe=1c0cff439c2ef668a15a8ecd3733342f1bc9f11f85e59c569e271aaf1ce1be063d298a7b459c7772a32f8a2fac2bac1bf4088ad78467fda96532a8dbd3ab48c6ef2ade22bd729f2f096544cc'))
+    // @ts-expect-error
+    frameManager.createFrame(id, '/service/' + __uv$config.encodeUrl(config.newTab))
   }
 
   focusTab(id: string) {
