@@ -1,3 +1,4 @@
+import { v4 } from 'uuid'
 import { browser, tabManager } from './index'
 import React from 'jsx-dom'
 
@@ -36,6 +37,9 @@ class FrameManager {
             <i class="fa-solid fa-rotate-right"></i>
           </div>
           <input className="action url" data-id={id} />
+          <div class="action newtab" onClick={() => tabManager.createTab('New Tab', v4())}>
+            <i class="fa-solid fa-plus"></i>
+          </div>
           <div
             className="action"
             onClick={() => {

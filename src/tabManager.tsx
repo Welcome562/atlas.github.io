@@ -7,13 +7,13 @@ export default class TabManager {
   constructor() {
     browser.root.appendChild(
       <>
-        <div class="tab-container">
-          <div class="tab newtab" onClick={() => tabManager.createTab('New Tab', uuidv4())}>
-            <i class="fa-solid fa-plus"></i>
-          </div>
-        </div>
+        <div class="tab-container"></div>
       </>
     )
+
+    setTimeout(() => {
+      tabManager.createTab('New Tab', uuidv4())
+    })
   }
 
   changeTabTitle(id: string, text: string) {
@@ -61,6 +61,7 @@ export default class TabManager {
     tab?.remove()
 
     frameManager.removeFrame(id)
-    if (!document.querySelectorAll(".tab[data-id]")[0]) this.createTab()
+    if (!document.querySelectorAll('.tab[data-id]')[0]) this.createTab()
+    if (!document.querySelector(".tab.active")) this.focusTab(document.querySelectorAll(".tab")[0].dataset.id)
   }
 }

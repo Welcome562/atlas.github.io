@@ -10,7 +10,7 @@ body {
   display: flex;
   gap: 10px;
   overflow-x: auto;
-  border-bottom: 1px solid white;
+  // border-bottom: 1px solid white;
 
   &::-webkit-scrollbar {
     display: none;
@@ -22,7 +22,6 @@ body {
     @apply w-48;
     @apply h-10;
     @apply py-2;
-    @apply hover:bg-slate-600/25;
     @apply border-white border-b-2;
 
     color: white;
@@ -42,12 +41,13 @@ body {
       text-overflow: ellipsis;
     }
 
-    &.active {
-      @apply border-b-4;
-    }
-
     &:hover .close {
       opacity: 1;
+    }
+
+    &:hover, &.active {
+      @apply bg-slate-600/25;
+      @apply border-b-4;
     }
 
     .close {
@@ -72,6 +72,7 @@ iframe {
 }
 
 .toolbar {
+  background-color: #242d36;
   display: flex;
   @apply gap-2;
   @apply p-2;
