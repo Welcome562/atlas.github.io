@@ -1,4 +1,4 @@
-import { v4 } from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import { browser, tabManager } from './index'
 import React from 'jsx-dom'
 
@@ -36,10 +36,22 @@ class FrameManager {
           >
             <i class="fa-solid fa-rotate-right"></i>
           </div>
+
           <input className="action url" data-id={id} />
-          <div class="action newtab" onClick={() => tabManager.createTab('New Tab', v4())}>
+
+          <div class="action newtab" onClick={() => tabManager.createTab('New Tab', uuidv4())}>
             <i class="fa-solid fa-plus"></i>
           </div>
+
+          <div
+            className="action"
+            onClick={() => {
+              tabManager.createTab('Settings', uuidv4(), 'internal/settings.html')
+            }}
+          >
+            <i class="fa-solid fa-file-code"></i>
+          </div>
+
           <div
             className="action"
             onClick={() => {
@@ -50,17 +62,24 @@ class FrameManager {
           >
             <i class="fa-solid fa-arrow-up-right-from-square"></i>
           </div>
-          <div className="action">
+
+          <div
+            className="action"
+            onClick={() => {
+              tabManager.createTab('Settings', uuidv4(), 'internal/settings.html')
+            }}
+          >
             <i class="fa-solid fa-gear"></i>
           </div>
         </div>
+
         <iframe
           src={src}
           data-id={id}
           onLoad={(e) => {
             tabManager.changeTabTitle(id, ((e.target as HTMLIFrameElement).contentWindow as Window).document.title)
             // @ts-expect-error (ultraviolet __uv$location doesn't exist in typical contentwindows)
-            ;(document.querySelector(`input[data-id="${id}"]`) as HTMLInputElement).value = (e.target as HTMLIFrameElement).contentWindow?.__uv$location.href
+            ;(document.querySelector(`input[data-id="${id}"]`) as HTMLInputElement).value = (e.target as HTMLIFrameElement).contentWindow?.__uv$location?.href || ""
           }}
         ></iframe>
       </div>

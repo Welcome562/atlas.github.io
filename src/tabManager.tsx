@@ -23,8 +23,8 @@ export default class TabManager {
     title.innerText = text
     title.title = text
   }
-
-  async createTab(name = 'New Tab', id = uuidv4()) {
+  // @ts-expect-error
+  async createTab(name = 'New Tab', id = uuidv4(), url = '/service/' + __uv$config.encodeUrl(config.newTab)) {
     if (document.querySelector(`.tab[data-id="${id}"]`)) return console.error('Tab id already exists')
 
     document.querySelector('.tab-container')?.appendChild(
@@ -44,8 +44,7 @@ export default class TabManager {
 
     tab?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
     this.focusTab(id)
-    // @ts-expect-error
-    frameManager.createFrame(id, '/service/' + __uv$config.encodeUrl(config.newTab))
+    frameManager.createFrame(id, url)
   }
 
   focusTab(id: string) {
