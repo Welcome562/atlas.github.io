@@ -41,13 +41,14 @@ body {
       text-overflow: ellipsis;
     }
 
-    &:hover .close {
-      opacity: 1;
-    }
-
-    &:hover, &.active {
+    &:hover,
+    &.active {
       @apply bg-slate-600/25;
       @apply border-b-4;
+
+      .close {
+        opacity: 1;
+      }
     }
 
     .close {
