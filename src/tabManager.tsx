@@ -1,6 +1,7 @@
 import React from 'jsx-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { tabManager, browser, frameManager } from './index'
+import config from './config'
 
 export default class TabManager {
   constructor() {
@@ -52,13 +53,14 @@ export default class TabManager {
     var tab = document.querySelector(`.tab[data-id="${id}"]`)
     tab?.classList.add('active')
 
-    setTimeout(() => frameManager.focusFrame(id))
+    frameManager.focusFrame(id)
   }
 
   closeTab(id: string) {
     var tab = document.querySelector(`.tab[data-id="${id}"]`)
     tab?.remove()
-    
+
     frameManager.removeFrame(id)
+    if (!document.querySelectorAll(".tab[data-id]")[0]) this.createTab()
   }
 }
