@@ -46,7 +46,27 @@ class FrameManager {
           <div
             className="action"
             onClick={() => {
-              tabManager.createTab('Settings', uuidv4(), 'internal/settings.html')
+              var frame = document.querySelector(`iframe[data-id="${id}"]`)
+              if (!frame) return
+              var contentWindow = (frame as HTMLIFrameElement).contentWindow
+              if (!contentWindow) return
+              // eruda go crazy
+              // @ts-expect-error
+              if (contentWindow.eruda?._isInit) {
+                // @ts-expect-error
+                contentWindow.eruda.destroy()
+              } else {
+                var erudaScript = contentWindow.document.createElement('script')
+                erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda'
+                erudaScript.onload = () => {
+                  if (!contentWindow) return
+                  // @ts-expect-error
+                  contentWindow.eruda.init();
+                  // @ts-expect-error
+                  console.log(contentWindow.eruda)
+                }
+                contentWindow.document.body.appendChild(erudaScript)
+              }
             }}
           >
             <i class="fa-solid fa-file-code"></i>
@@ -79,7 +99,7 @@ class FrameManager {
           onLoad={(e) => {
             tabManager.changeTabTitle(id, ((e.target as HTMLIFrameElement).contentWindow as Window).document.title)
             // @ts-expect-error (ultraviolet __uv$location doesn't exist in typical contentwindows)
-            ;(document.querySelector(`input[data-id="${id}"]`) as HTMLInputElement).value = (e.target as HTMLIFrameElement).contentWindow?.__uv$location?.href || ""
+            ;(document.querySelector(`input[data-id="${id}"]`) as HTMLInputElement).value = (e.target as HTMLIFrameElement).contentWindow?.__uv$location?.href || ''
           }}
         ></iframe>
       </div>
