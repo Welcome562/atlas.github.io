@@ -23,6 +23,13 @@ export default class TabManager {
     title.innerText = text
     title.title = text
   }
+
+  changeTabIcon(id: string, image: string) {
+    var icon: HTMLImageElement | null = document.querySelector(`.tab[data-id="${id}"] img`)
+    if (!icon) return
+
+    icon.src = image
+  }
   // @ts-expect-error
   async createTab(name = 'New Tab', id = uuidv4(), url = '/service/' + __uv$config.encodeUrl(config.newTab)) {
     if (document.querySelector(`.tab[data-id="${id}"]`)) return console.error('Tab id already exists')
@@ -35,6 +42,7 @@ export default class TabManager {
           if (!(e.target as Element)?.classList.contains('close')) this.focusTab(id)
         }}
       >
+        <img src="/globe.png" alt="Tab favicon" />
         <p title={name}>{name}</p> <i class="close fa-solid fa-xmark" onClick={() => this.closeTab(id)}></i>
       </div>
     )

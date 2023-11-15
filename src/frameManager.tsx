@@ -10,7 +10,7 @@ class FrameManager {
     browser.root.appendChild(this.frameContainer)
   }
 
-  createFrame(id: string, src: string) {
+  createFrame(id: string, src: string, defaultUrl = "") {
     document.querySelectorAll('.frame').forEach((frame) => ((frame as HTMLDivElement).style.display = 'none'))
 
     this.frameContainer.appendChild(
@@ -37,7 +37,7 @@ class FrameManager {
             <i class="fa-solid fa-rotate-right"></i>
           </div>
 
-          <input className="action url" data-id={id} />
+          <input className="action url" data-id={id} value={defaultUrl} />
 
           <div class="action newtab" onClick={() => tabManager.createTab('New Tab', uuidv4())}>
             <i class="fa-solid fa-plus"></i>
@@ -61,9 +61,11 @@ class FrameManager {
                 erudaScript.onload = () => {
                   if (!contentWindow) return
                   // @ts-expect-error
-                  contentWindow.eruda.init();
+                  contentWindow.eruda.init()
                   // @ts-expect-error
-                  console.log(contentWindow.eruda)
+                  contentWindow.eruda.position({ x: -10, y: -10 })
+                  // @ts-expect-error
+                  contentWindow.eruda.show()
                 }
                 contentWindow.document.body.appendChild(erudaScript)
               }
@@ -97,9 +99,14 @@ class FrameManager {
           src={src}
           data-id={id}
           onLoad={(e) => {
-            tabManager.changeTabTitle(id, ((e.target as HTMLIFrameElement).contentWindow as Window).document.title)
+            var contentWindow = (e.target as HTMLIFrameElement).contentWindow
+            if (!contentWindow) return;
+            tabManager.changeTabTitle(id, (contentWindow as Window).document.title)
+            var favicon = contentWindow.document.querySelector('link[rel="icon"], link[rel="shortcut icon"]') as HTMLLinkElement
+            if (favicon) tabManager.changeTabIcon(id, favicon.href || '/globe.png')
+
             // @ts-expect-error (ultraviolet __uv$location doesn't exist in typical contentwindows)
-            ;(document.querySelector(`input[data-id="${id}"]`) as HTMLInputElement).value = (e.target as HTMLIFrameElement).contentWindow?.__uv$location?.href || ''
+            ;(document.querySelector(`input[data-id="${id}"]`) as HTMLInputElement).value = contentWindow.__uv$location?.href || ''
           }}
         ></iframe>
       </div>

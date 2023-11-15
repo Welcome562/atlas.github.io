@@ -32,8 +32,13 @@ body {
     justify-content: space-between;
     flex-shrink: 0;
 
+
+    img {
+      @apply h-5 w-5;
+      @apply mx-2; // adjust as needed
+    }
+
     p {
-      @apply ml-2;
       flex-grow: 1;
       min-width: 0;
       white-space: nowrap;
@@ -93,7 +98,7 @@ iframe {
   .url {
     @apply flex-1;
     @apply bg-slate-600/25;
-    @apply pl-2;
+    @apply pl-3;
 
     &:focus {
       outline: none;
