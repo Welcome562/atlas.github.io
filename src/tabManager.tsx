@@ -62,6 +62,10 @@ export default class TabManager {
 
     frameManager.removeFrame(id)
     if (!document.querySelectorAll('.tab[data-id]')[0]) this.createTab()
-    if (!document.querySelector(".tab.active")) this.focusTab(document.querySelectorAll(".tab")[0].dataset.id)
+
+    var firstTab = document.querySelectorAll('.tab')[0] as HTMLDivElement
+    if (firstTab && firstTab.dataset.id) {
+      this.focusTab(firstTab.dataset.id)
+    }
   }
 }
