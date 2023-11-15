@@ -1,5 +1,6 @@
 import React from 'jsx-dom'
+import './style.less'
 
 document.querySelector("#root")?.appendChild(
-  <p>Hi!</p>
+  <p className="text-white">Hi!</p>
 )
