@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'montserrat': ['Montserrat'],
+        'jetbrains-mono': ['JetBrains Mono']
+      }
+    },
   },
   plugins: [],
 }

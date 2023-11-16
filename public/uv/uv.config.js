@@ -1,7 +1,10 @@
 /*global Ultraviolet*/
 self.__uv$config = {
     prefix: '/service/',
-    bare: 'https://bare.worksheetsforteachers.org/',
+    bare: [
+        // '/bare/',
+        'https://tomp.app/'
+    ],
     encodeUrl: Ultraviolet.codec.xor.encode,
     decodeUrl: Ultraviolet.codec.xor.decode,
     handler: '/uv/uv.handler.js',

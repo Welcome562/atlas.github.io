@@ -2,18 +2,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { browser, tabManager } from './index'
 import React from 'jsx-dom'
 
-function search(input: string, template = 'https://google.com/search?q=%s') {
-  try {
-    return new URL(input).toString()
-  } catch (err) {}
-
-  try {
-    const url = new URL(`http://${input}`)
-    if (url.hostname.includes('.')) return url.toString()
-  } catch (err) {}
-  return template.replace('%s', encodeURIComponent(input))
-}
-
 class FrameManager {
   public frameContainer: HTMLDivElement
   constructor() {
@@ -56,7 +44,7 @@ class FrameManager {
             onKeyDown={(e) => {
               if (e.key == 'Enter') {
                 var input = e.target as HTMLInputElement
-                var url = search(input.value)
+                var url = browser.search(input.value)
 
                 var frame = document.querySelector(`iframe[data-id="${id}"]`) as HTMLIFrameElement
                 if (!frame) return
@@ -99,7 +87,7 @@ class FrameManager {
               }
             }}
           >
-            <i class="fa-solid fa-code"></i>
+            <i class="fa-solid fa-file-code"></i>
           </div>
 
           <div

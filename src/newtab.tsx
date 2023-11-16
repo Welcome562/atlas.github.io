@@ -1,17 +1,7 @@
 import React from 'jsx-dom'
+import search from './search'
+import { browser } from './index'
 import './style.less'
-
-function search(input: string, template = 'https://google.com/search?q=%s') {
-  try {
-    return new URL(input).toString()
-  } catch (err) {}
-
-  try {
-    const url = new URL(`http://${input}`)
-    if (url.hostname.includes('.')) return url.toString()
-  } catch (err) {}
-  return template.replace('%s', encodeURIComponent(input))
-}
 
 document.querySelector('#settings')?.appendChild(
   <>
