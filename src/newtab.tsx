@@ -1,6 +1,5 @@
 import React from 'jsx-dom'
 import search from './search'
-import { browser } from './index'
 import './style.less'
 
 document.querySelector('#settings')?.appendChild(
