@@ -1,15 +1,5 @@
-import config from './config'
 export default function search(input: string, template = 'https://google.com/search?q=%s') {
   try {
-    if (input.startsWith('atlas://')) {
-      var page = input.replace('atlas://', '')
-      switch (page) {
-        case 'newtab':
-          return config.internalPages.newtab
-        case 'settings':
-          return config.internalPages.settings
-      }
-    }
     return new URL(input).toString()
   } catch (err) {}
 
