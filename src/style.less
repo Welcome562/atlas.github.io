@@ -4,6 +4,7 @@
 
 body {
   background-color: #1d232a;
+  height: 100vh;
 }
 
 .tab-container {
@@ -99,6 +100,7 @@ iframe {
     @apply flex-1;
     @apply bg-slate-600/25;
     @apply pl-3;
+    cursor: text;
 
     &:focus {
       outline: none;
@@ -117,4 +119,36 @@ iframe {
 #root {
   height: 100vh;
   width: 100vw;
+}
+
+#settings {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+
+  h1 {
+    @apply text-6xl;
+    @apply font-bold;
+  }
+
+  input {
+    @apply h-10;
+    @apply py-2;
+    @apply w-96;
+    @apply pl-0;
+    @apply bg-slate-600/25;
+    @apply pl-3;
+    cursor: text;
+    text-align: center;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  @apply pb-32;
+
 }

@@ -2,6 +2,18 @@ import { v4 as uuidv4 } from 'uuid'
 import { browser, tabManager } from './index'
 import React from 'jsx-dom'
 
+function search(input: string, template = 'https://google.com/search?q=%s') {
+  try {
+    return new URL(input).toString()
+  } catch (err) {}
+
+  try {
+    const url = new URL(`http://${input}`)
+    if (url.hostname.includes('.')) return url.toString()
+  } catch (err) {}
+  return template.replace('%s', encodeURIComponent(input))
+}
+
 class FrameManager {
   public frameContainer: HTMLDivElement
   constructor() {
@@ -10,7 +22,7 @@ class FrameManager {
     browser.root.appendChild(this.frameContainer)
   }
 
-  createFrame(id: string, src: string, defaultUrl = "") {
+  createFrame(id: string, src: string, defaultUrl = '') {
     document.querySelectorAll('.frame').forEach((frame) => ((frame as HTMLDivElement).style.display = 'none'))
 
     this.frameContainer.appendChild(
@@ -37,7 +49,23 @@ class FrameManager {
             <i class="fa-solid fa-rotate-right"></i>
           </div>
 
-          <input className="action url" data-id={id} value={defaultUrl} />
+          <input
+            className="action url"
+            data-id={id}
+            value={defaultUrl}
+            onKeyDown={(e) => {
+              if (e.key == 'Enter') {
+                var input = e.target as HTMLInputElement
+                var url = search(input.value)
+
+                var frame = document.querySelector(`iframe[data-id="${id}"]`) as HTMLIFrameElement
+                if (!frame) return
+                // @ts-expect-error
+                frame.src = '/service/' + __uv$config.encodeUrl(url)
+                input.blur()
+              }
+            }}
+          />
 
           <div class="action newtab" onClick={() => tabManager.createTab('New Tab', uuidv4())}>
             <i class="fa-solid fa-plus"></i>
@@ -71,7 +99,7 @@ class FrameManager {
               }
             }}
           >
-            <i class="fa-solid fa-file-code"></i>
+            <i class="fa-solid fa-code"></i>
           </div>
 
           <div
@@ -100,17 +128,27 @@ class FrameManager {
           data-id={id}
           onLoad={(e) => {
             var contentWindow = (e.target as HTMLIFrameElement).contentWindow
-            if (!contentWindow) return;
+            if (!contentWindow) return
             tabManager.changeTabTitle(id, (contentWindow as Window).document.title)
             var favicon = contentWindow.document.querySelector('link[rel="icon"], link[rel="shortcut icon"]') as HTMLLinkElement
-            if (favicon) tabManager.changeTabIcon(id, favicon.href || '/globe.png')
+            if (favicon)
+              tabManager.changeTabIcon(id, favicon.href || '/globe.png')
 
-            // @ts-expect-error (ultraviolet __uv$location doesn't exist in typical contentwindows)
-            ;(document.querySelector(`input[data-id="${id}"]`) as HTMLInputElement).value = contentWindow.__uv$location?.href || ''
+              // @ts-expect-error (ultraviolet __uv$location doesn't exist in typical contentwindows)
+              var src = contentWindow.__uv$location?.href || contentWindow.__location || contentWindow.location.href
+            if (!src.includes(location.href)) (document.querySelector(`input[data-id="${id}"]`) as HTMLInputElement).value = src
           }}
         ></iframe>
       </div>
     )
+  }
+
+  updateFrameSrc(id: string, src: string) {
+    // @ts-expect-error
+
+    var proxiedSrc = '/service/' + __uv$config.encodeUrl(src)
+
+    ;(document.querySelector(`iframe[data-id="${id}"]`) as HTMLIFrameElement).src = proxiedSrc
   }
 
   removeFrame(id: string) {

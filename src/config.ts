@@ -1,3 +1,6 @@
 export default {
-  newTab: 'https://www.google.com/'
+  internalPages: {
+    settings: 'internal/settings.html',
+    newtab: 'internal/newtab.html'
+  }
 }

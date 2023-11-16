@@ -30,8 +30,8 @@ export default class TabManager {
 
     icon.src = image
   }
-  // @ts-expect-error
-  async createTab(name = 'New Tab', id = uuidv4(), url = '/service/' + __uv$config.encodeUrl(config.newTab)) {
+
+  async createTab(name = 'New Tab', id = uuidv4(), url = config.internalPages.newtab) {
     if (document.querySelector(`.tab[data-id="${id}"]`)) return console.error('Tab id already exists')
 
     document.querySelector('.tab-container')?.appendChild(
